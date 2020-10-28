@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
-    tools:context="com.example.chatterbox.LoginActivity">
+    tools:context="com.example.chatterbox.login_register.LoginActivity">
 
 
 
@@ -112,8 +112,6 @@
 
 
             </LinearLayout>
-
-
 
 
             <Button

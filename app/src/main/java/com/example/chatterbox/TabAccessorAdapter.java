@@ -1,10 +1,20 @@
 package com.example.chatterbox;
 
 //import android.support.v4.app.Fragment;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+//import android.support.annotation.Nullable;
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+//import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.chatterbox.fragments.ChatsFragment;
+import com.example.chatterbox.fragments.ContactsFragment;
+import com.example.chatterbox.fragments.GroupsFragment;
+import com.example.chatterbox.fragments.RequestsFragment;
 
 public class TabAccessorAdapter extends FragmentPagerAdapter {
     public TabAccessorAdapter(FragmentManager fm) {

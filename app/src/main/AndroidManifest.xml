@@ -10,20 +10,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Moderator"></activity>
-        <activity android:name=".imageViewerActivity" />
-        <activity android:name=".ChatSingleActivity" />
-        <activity android:name=".PWresetActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".moderator.Moderator"></activity>
+        <activity android:name=".helper.imageViewerActivity" />
+        <activity android:name=".peer_to_peer_chat.ChatSingleActivity" />
+        <activity android:name=".login_register.PWresetActivity" />
+        <activity android:name=".settings.ProfileActivity" />
         <activity
-            android:name=".FindFriendsActivity"
+            android:name=".find_friends.FindFriendsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".group_chat.ChatActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".login_register.RegisterActivity" />
+        <activity android:name=".login_register.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +35,9 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     </application>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

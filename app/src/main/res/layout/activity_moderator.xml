@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Moderator">
+    tools:context=".moderator.Moderator">
 
 
 
@@ -44,7 +44,38 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/profmode"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:foregroundGravity="center"
+            android:layout_marginRight="50dp"
+            android:text="Profanity Mode"
+
+            />
+
+        <Button
+            android:id="@+id/compdash"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:foregroundGravity="center"
+            android:layout_marginRight="50dp"
+            android:text="Dashboard"
+            />
+
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/blocked_user_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,9 +84,10 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginTop="50dp"
         >
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/moderatornotice"
@@ -68,7 +100,7 @@
         android:textSize="30sp"
         android:layout_marginStart="50dp"
         android:gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="65dp"
         android:layout_below="@id/top_bar"
 
 
