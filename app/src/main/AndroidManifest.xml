@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".moderator.Moderator"></activity>
+        <activity android:name=".moderator.dashboard.DashActivity"></activity>
+        <activity android:name=".moderator.Moderator" />
         <activity android:name=".helper.imageViewerActivity" />
         <activity android:name=".peer_to_peer_chat.ChatSingleActivity" />
         <activity android:name=".login_register.PWresetActivity" />
@@ -18,7 +19,7 @@
         <activity
             android:name=".find_friends.FindFriendsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".group_chat.ChatActivity" />
+        <activity android:name=".group_chat.GroupChatActivity" />
         <activity
             android:name=".settings.SettingsActivity"
             android:parentActivityName=".MainActivity" />
@@ -35,12 +36,10 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

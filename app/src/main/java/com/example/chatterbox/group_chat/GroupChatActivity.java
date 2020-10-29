@@ -1,7 +1,7 @@
 package com.example.chatterbox.group_chat;
 
-import com.example.chatterbox.modelprediction;
-import android.os.AsyncTask;
+import com.example.chatterbox.profanity.modelprediction;
+
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.annotation.Nullable;
@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,8 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatterbox.R;
-import com.example.chatterbox.group_chat.MessageAdapterGroup;
-import com.example.chatterbox.group_chat.MessageGroup;
 import com.example.chatterbox.profanity.BadWordFilter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,24 +43,9 @@ import com.koushikdutta.async.future.FutureCallback;
 //import com.koushikdutta.async.http.NameValuePair;
 import com.koushikdutta.ion.Ion;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,13 +53,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 //import static java.net.Proxy.Type.HTTP;
 //import android.widget.TextView;
 //import android.widget.Toolbar;
 
-public class ChatActivity extends AppCompatActivity {
+public class GroupChatActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ImageButton SendMessageButton;
     private EditText userMessageInput;
@@ -91,6 +72,8 @@ public class ChatActivity extends AppCompatActivity {
     List<MessageGroup> messages = new ArrayList<>();
 
     String currentName = "";
+
+    int[] comp = new int[4];
     
     
     
@@ -116,6 +99,8 @@ public class ChatActivity extends AppCompatActivity {
 
         getUserInfo();
 
+        comp = retrieveCompData();
+
         SendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +111,92 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private int[] retrieveCompData() {
+        retriveTotalData();
+        retriveNormalData();
+        retriveGoogleData();
+        retriveModelData();
+        return comp;
+
+    }
+
+    private void retriveTotalData() {
+        final DatabaseReference rootf = FirebaseDatabase.getInstance().getReference().child("CompMode");
+        rootf.child("Total").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = String.valueOf(dataSnapshot.getValue());
+                comp[3] = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                Log.d("ASDF"," IN Normal : "+value);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    int x = 0;
+    private void retriveNormalData(){
+        final DatabaseReference rootf = FirebaseDatabase.getInstance().getReference().child("CompMode");
+        rootf.child("NormalMode").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = String.valueOf(dataSnapshot.getValue());
+                comp[0] = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                Log.d("ASDF"," IN Normal : "+value);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("ASDF"," after Normal : "+x);
+    }
+
+    private void retriveGoogleData(){
+        x = 0;
+        final DatabaseReference rootf = FirebaseDatabase.getInstance().getReference().child("CompMode");
+        rootf.child("GoogleMode").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = String.valueOf(dataSnapshot.getValue());
+                comp[1] = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                Log.d("ASDF"," IN Google : "+x);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("ASDF"," After Google : "+value);
+    }
+
+    private void retriveModelData(){
+        final DatabaseReference rootf = FirebaseDatabase.getInstance().getReference().child("CompMode");
+        rootf.child("ModelMode").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = String.valueOf(dataSnapshot.getValue());
+                comp[2] = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                Log.d("ASDF"," IN Model : "+value);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("ASDF"," After Model : "+x);
     }
 
 
@@ -226,6 +297,8 @@ public class ChatActivity extends AppCompatActivity {
     String Statement = "";
     boolean profanityEnabled = false;
     String new_message = "";
+    int compMode = 0;
+    String value = "";
     private void SaveMessageinfoToDatabase() {
         String message = userMessageInput.getText().toString();
         String messageKey = GroupNameRef.push().getKey();
@@ -235,6 +308,40 @@ public class ChatActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(message)){
             Toast.makeText(this,"Please write message first...",Toast.LENGTH_SHORT).show();
         }else{
+
+            //================================================
+
+            FirebaseDatabase.getInstance().getReference().child("ComparsionMode").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String value = String.valueOf(dataSnapshot.getValue());
+                    compMode = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            if (compMode==1){
+                final DatabaseReference rootf = FirebaseDatabase.getInstance().getReference().child("CompMode");
+
+                String tempmessage = message;
+                if (checkProfanityInApp(tempmessage)){
+                    rootf.child("NormalMode").setValue(comp[0]+1);
+                }
+                if (checkProfanityGoogle(tempmessage)){
+                    rootf.child("GoogleMode").setValue(comp[1]+1);
+                }
+                if (checkProfanityByModel(tempmessage)){
+                    rootf.child("ModelMode").setValue(comp[2]+1);
+                }
+                rootf.child("Total").setValue(comp[3]+1);
+            }
+
+            //==================================================
+
 
 
             FirebaseDatabase.getInstance().getReference().child("SelectedProfanity").addValueEventListener(new ValueEventListener() {
@@ -305,6 +412,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
             GroupMessageKeyRef.updateChildren(messageInfoMap);
+            comp = retrieveCompData();
 
         }
 
@@ -342,14 +450,14 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(count==2){
-                        AlertDialog.Builder alert = new AlertDialog.Builder(ChatActivity.this);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(GroupChatActivity.this);
                         alert.setTitle("Warning");
                         alert.setMessage("Wait!! check before writing, Profanity Detected,\n If continue, You will be blocked next time");
                         alert.create();
                         alert.show();
                     }
                     if (count>=3){
-                        AlertDialog.Builder alert = new AlertDialog.Builder(ChatActivity.this);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(GroupChatActivity.this);
                         alert.setTitle("Warning");
                         alert.setMessage("You are blocked and details are under review");
                         alert.create();

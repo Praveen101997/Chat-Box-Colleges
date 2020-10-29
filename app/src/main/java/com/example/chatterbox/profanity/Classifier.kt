@@ -1,4 +1,4 @@
-package com.example.chatterbox
+package com.example.chatterbox.profanity
 
 import android.content.Context
 import android.util.Log

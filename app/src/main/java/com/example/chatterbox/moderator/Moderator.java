@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatterbox.R;
 import com.example.chatterbox.login_register.LoginActivity;
+import com.example.chatterbox.moderator.dashboard.DashActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -110,6 +112,38 @@ public class Moderator extends AppCompatActivity {
                 });
                 alertdialog.show();
 
+            }
+        });
+
+
+        findViewById(R.id.comparison).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((CompoundButton) view).isChecked()){
+                    FirebaseDatabase.getInstance().getReference().child("ComparsionMode").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(),"Comparison Mode Enabled",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("ComparsionMode").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(),"Comparison Mode Disabled",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+
+        findViewById(R.id.compdash).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Moderator.this, DashActivity.class);
+                startActivity(intent)
+                ;
             }
         });
     }

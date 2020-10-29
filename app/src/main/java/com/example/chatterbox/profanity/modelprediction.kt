@@ -1,6 +1,6 @@
 @file: JvmName("modelprediction")
 @file:JvmMultifileClass
-package com.example.chatterbox
+package com.example.chatterbox.profanity
 
 import android.content.Context
 import android.util.Log
@@ -24,7 +24,7 @@ class modelprediction : CoroutineScope {
             listOf("Toxic", "Severe Toxic", "Obscene", "Threat", "Insult", "Identity Hate")
     private val thresholds = listOf(0.70, 0.30, 0.30, 0.15, 0.40, 0.20)
 
-    private var classifier:Classifier
+    private var classifier: Classifier
 
     public var finalres = false
 
